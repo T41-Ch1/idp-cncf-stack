@@ -24,8 +24,6 @@ jobs:
     permissions:
       contents: read
       packages: write
-    working-directory: backstage-app
-
     
     steps:
       - name: Checkout repository
@@ -39,12 +37,16 @@ jobs:
 
       - name: Install dependencies
         run: yarn install --immutable
+        working-directory: backstage-app
+
 
       - name: Generate type definitions
         run: yarn tsc
+        working-directory: backstage-app
 
       - name: Build backend
         run: yarn build:backend
+        working-directory: backstage-app
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -74,7 +76,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./packages/backend/Dockerfile
+          file: ./backstage-app/packages/backend/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
