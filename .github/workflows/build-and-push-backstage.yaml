@@ -31,6 +31,7 @@ jobs:
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
+        cache-dependency-path: backstage-app/yarn.lock
         with:
           node-version: '22'
           cache: 'yarn'
