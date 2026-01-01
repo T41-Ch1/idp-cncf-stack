@@ -1,0 +1,58 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+
+# クラスタ名（オプション：コマンドラインで指定可能）
+name: dev-cluster
+
+# ノード構成
+nodes:
+  # Control Plane（マスターノード）
+  - role: control-plane
+    # Kubernetesバージョンの指定（オプション）
+    # image: kindest/node:v1.27.3@sha256:...
+    
+    # ポートマッピング（ホスト -> コンテナ）
+    # Ingress Controllerで使用
+    kubeadmConfigPatches:
+    - |
+      kind: InitConfiguration
+      nodeRegistration:
+        kubeletExtraArgs:
+          node-labels: "ingress-ready=true"
+    extraPortMappings:
+    - containerPort: 80
+      hostPort: 8080
+      protocol: TCP
+    - containerPort: 443
+      hostPort: 8443
+      protocol: TCP
+
+  # Workerノード1
+  - role: worker
+    # リソース制限の例（オプション）
+    # extraMounts:
+    # - hostPath: /path/on/host
+    #   containerPath: /path/in/node
+
+  # Workerノード2
+  - role: worker
+
+# ネットワーク設定
+# networking:
+  # PodのIPレンジ
+  # podSubnet: "10.244.0.0/16"
+  # ServiceのIPレンジ
+  # serviceSubnet: "10.96.0.0/12"
+  # API Serverの無効化（通常は不要）
+  # disableDefaultCNI: false
+  # kubeProxyMode: "iptables"
+
+# Feature Gatesの有効化（オプション）
+# featureGates:
+#   EphemeralContainers: true
+
+# Runtime設定（オプション）
+# containerdConfigPatches:
+# - |-
+#   [plugins."io.containerd.grpc.v1.cri".registry.mirrors."localhost:5000"]
+#     endpoint = ["http://kind-registry:5000"]
