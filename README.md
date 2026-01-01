@@ -28,3 +28,17 @@ docker image build . -f packages/backend/Dockerfile --tag backstage
 ```sh
 docker run -it -p 7007:7007 backstage
 ```
+
+# kind
+
+kind/kind-config.yamlにkind設定ファイルを作成した。
+
+```sh
+# クラスタ作成
+kind create cluster --config kind/kind-config.yaml --name dev-cluster
+```
+
+```sh
+# クラスタ削除
+kind delete cluster -n dev-cluster
+```
