@@ -22,12 +22,13 @@ spec:
             - name: http
               containerPort: 7007
           envFrom:
-#            - secretRef:
-#                name: postgres-secrets
+            #            - secretRef:
+            #                name: postgres-secrets
             - secretRef:
                 name: backstage-secrets
-      imagePullSecrets:
-        - name: ghcr-image-pull-secret
+# TODO: レジストリのPrivate化対応時にコメントアウトを外す
+#      imagePullSecrets:
+#        - name: ghcr-image-pull-secret
 # Uncomment if health checks are enabled in your app:
 # https://backstage.io/docs/plugins/observability#health-checks
 #          readinessProbe:

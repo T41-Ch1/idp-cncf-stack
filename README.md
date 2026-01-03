@@ -44,7 +44,7 @@ kind create cluster --config kind/kind-config.yaml --name dev-cluster
 kind delete cluster -n dev-cluster
 ```
 
-## Secret作成
+## Secret 作成
 
 ### GitHub 統合
 
@@ -56,7 +56,9 @@ GitHub Token の代わりに[GitHub Apps を利用](https://backstage.io/docs/in
 k create secret generic backstage-secrets -n backstage --from-literal=GITHUB_TOKEN=$GITHUB_TOKEN_BACKSTAGE_INTEGRATION
 ```
 
-### GitHub PackagesからのコンテナイメージPull
+### Private レジストリからのコンテナイメージ Pull
+
+※注: 現状はレジストリを Public にしているため下記操作は不要
 
 ```sh
 k create secret docker-registry ghcr-image-pull-secret -n backstage --docker-server=ghcr.io --docker-username=T41-Ch1 --docker-password=GITHUB_TOKEN=$GITHUB_TOKEN_GHCR_PULL_IMAGE --docker-email=$MY_EMAILADDRESS
