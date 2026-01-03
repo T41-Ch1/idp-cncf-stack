@@ -44,7 +44,9 @@ kind create cluster --config kind/kind-config.yaml --name dev-cluster
 kind delete cluster -n dev-cluster
 ```
 
-## GitHub 統合
+## Secret作成
+
+### GitHub 統合
 
 Backstage の GitHub 統合のためには GtHub Token を app-config.yaml 経由 or Secret リソースとして渡す必要がある。必要な権限は[Token scopes](https://backstage.io/docs/integrations/github/locations/#token-scopes)を参照。
 
@@ -52,4 +54,10 @@ GitHub Token の代わりに[GitHub Apps を利用](https://backstage.io/docs/in
 
 ```sh
 k create secret generic backstage-secrets -n backstage --from-literal=GITHUB_TOKEN=$GITHUB_TOKEN_BACKSTAGE_INTEGRATION
+```
+
+### GitHub PackagesからのコンテナイメージPull
+
+```sh
+k create secret docker-registry ghcr-image-pull-secret -n backstage --docker-server=ghcr.io --docker-username=T41-Ch1 --docker-password=GITHUB_TOKEN=$GITHUB_TOKEN_GHCR_PULL_IMAGE --docker-email=$MY_EMAILADDRESS
 ```
