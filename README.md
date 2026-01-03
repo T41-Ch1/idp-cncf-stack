@@ -44,9 +44,22 @@ kind create cluster --config kind/kind-config.yaml --name dev-cluster
 kind delete cluster -n dev-cluster
 ```
 
-## Secret 作成
+## k8s
 
-### GitHub 統合
+### デプロイ手順
+
+必要な Secret リソースを imperative に作成する
+manifest フォルダ配下のマニフェストを apply する
+
+port-forwarding してブラウザからアクセスする
+
+```sh
+kubectl port-forward --namespace=backstage svc/backstage 8090:80
+```
+
+### Secret 作成
+
+#### GitHub 統合
 
 Backstage の GitHub 統合のためには GtHub Token を app-config.yaml 経由 or Secret リソースとして渡す必要がある。必要な権限は[Token scopes](https://backstage.io/docs/integrations/github/locations/#token-scopes)を参照。
 
@@ -56,7 +69,7 @@ GitHub Token の代わりに[GitHub Apps を利用](https://backstage.io/docs/in
 k create secret generic backstage-secrets -n backstage --from-literal=GITHUB_TOKEN=$GITHUB_TOKEN_BACKSTAGE_INTEGRATION
 ```
 
-### Private レジストリからのコンテナイメージ Pull
+#### Private レジストリからのコンテナイメージ Pull
 
 ※注: 現状はレジストリを Public にしているため下記操作は不要
 
